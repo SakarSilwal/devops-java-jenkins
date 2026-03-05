@@ -14,7 +14,7 @@
 
 Make sure target folder is created with a `.jar` file inside.
 
-# Running the build jar file
+# Running the build jar file.
 `java -jar <name of jar file>`
 
 # Building the image
