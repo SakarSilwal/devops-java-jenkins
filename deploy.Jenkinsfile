@@ -32,7 +32,7 @@ pipeline {
         APP_PORT        = '8080'
         
         // .env file path on production server
-        ENV_FILE        = '/home/jenkins/.env'
+        ENV_FILE        = '/home/sakar/.env'
     }
 
     stages {
