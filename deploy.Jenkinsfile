@@ -134,7 +134,7 @@ pipeline {
                             docker push \${DOCKER_IMAGE}:latest
                             
                             docker logout
-                            echo "✅ Pushed successfully!"
+                            echo "✅ Pushed successfully!!!"
                         """
                     }
                 }
