@@ -27,12 +27,12 @@ pipeline {
         
         // Deployment server configuration
         DEPLOY_SERVER   = '185.199.53.175'
-        DEPLOY_USER     = 'jenkins'
+        DEPLOY_USER     = 'sakar'
         DEPLOY_PORT     = '22'
         APP_PORT        = '8080'
         
         // .env file path on production server
-        ENV_FILE        = '/home/jenkins/.env'
+        ENV_FILE        = '/home/sakar/.env'
     }
 
     stages {
@@ -134,7 +134,7 @@ pipeline {
                             docker push \${DOCKER_IMAGE}:latest
                             
                             docker logout
-                            echo "✅ Pushed successfully!"
+                            echo "✅ Pushed successfully!!!"
                         """
                     }
                 }
