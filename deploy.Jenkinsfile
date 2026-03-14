@@ -205,29 +205,51 @@ ENDSSH
             }
         }
 
+        // stage('🏥 Health Check') {
+        //     steps {
+        //         script {
+        //             sh """
+        //                 echo "=== Preparing Health Check Environment ==="
+                        
+        //                 # [CHANGE: Use shell-compatible comments and install curl]
+        //                 if ! command -v curl &> /dev/null; then
+        //                     apk add --no-cache curl
+        //                 fi
+
+        //                 echo "=== Checking App on http://${DEPLOY_SERVER}:${APP_PORT}/ ==="
+                        
+        //                 # Giving the Spring Boot app time to initialize and connect to DB
+        //                 sleep 30
+                        
+        //                 # [CHANGE: We use the root path since actuator is returning 404]
+        //                 # -f ensures the pipeline fails if the response is 4xx or 5xx
+        //                 curl -f http://${DEPLOY_SERVER}:${APP_PORT}/ || exit 1
+        //                 # [END CHANGE]
+                        
+        //                 echo "✅ Application is healthy!"
+        //                 echo "🌐 Live at: http://${DEPLOY_SERVER}:${APP_PORT}"
+        //             """
+        //         }
+        //     }
+        // }
+
         stage('🏥 Health Check') {
             steps {
                 script {
                     sh """
-                        echo "=== Preparing Health Check Environment ==="
-                        
-                        # [CHANGE: Use shell-compatible comments and install curl]
-                        if ! command -v curl &> /dev/null; then
-                            apk add --no-cache curl
-                        fi
+                        echo "=== Health Check: Waiting for app to start ==="
 
-                        echo "=== Checking App on http://${DEPLOY_SERVER}:${APP_PORT}/ ==="
-                        
-                        # Giving the Spring Boot app time to initialize and connect to DB
-                        sleep 30
-                        
-                        # [CHANGE: We use the root path since actuator is returning 404]
-                        # -f ensures the pipeline fails if the response is 4xx or 5xx
-                        curl -f http://${DEPLOY_SERVER}:${APP_PORT}/ || exit 1
-                        # [END CHANGE]
-                        
-                        echo "✅ Application is healthy!"
-                        echo "🌐 Live at: http://${DEPLOY_SERVER}:${APP_PORT}"
+                        # Retry 10 times, 5 seconds each
+                        for i in {1..10}; do
+                            if curl -f http://${DEPLOY_SERVER}:${APP_PORT}/; then
+                                echo "✅ Application is healthy!"
+                                echo "🌐 Live at: http://${DEPLOY_SERVER}:${APP_PORT}"
+                                break
+                                else
+                                echo "Waiting for app to start... ($i/10)"
+                                sleep 5
+                            fi
+                        done
                     """
                 }
             }
