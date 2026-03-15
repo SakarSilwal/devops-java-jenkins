@@ -236,24 +236,24 @@ ENDSSH
         stage('🏥 Health Check') {
             steps {
                 script {
-                    sh """
+                    sh '''
                         echo "=== Health Check: Waiting for app to start ==="
 
                         # Retry 10 times, 5 seconds each
                         for i in $(seq 1 10); do
-                            if curl -f http://${DEPLOY_SERVER}:${APP_PORT}/; then
+                            if curl -f http://$DEPLOY_SERVER:$APP_PORT/; then
                                 echo "✅ Application is healthy!"
-                                echo "🌐 Live at: http://${DEPLOY_SERVER}:${APP_PORT}"
-                                break
-                                else
+                                echo "🌐 Live at: http://$DEPLOY_SERVER:$APP_PORT"
+                                exit 0   # Exit immediately if successful
+                            else
                                 echo "Waiting for app to start... ($i/10)"
                                 sleep 5
                             fi
                         done
 
-                        echo "❌ Application failed health check."
+                        echo "❌ Application failed health check..."
                         exit 1
-                    """
+                    '''
                 }
             }
         }
