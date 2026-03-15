@@ -240,7 +240,7 @@ ENDSSH
                         echo "=== Health Check: Waiting for app to start ==="
 
                         # Retry 10 times, 5 seconds each
-                        for i in {1..10}; do
+                        for i in $(seq 1 10); do
                             if curl -f http://${DEPLOY_SERVER}:${APP_PORT}/; then
                                 echo "✅ Application is healthy!"
                                 echo "🌐 Live at: http://${DEPLOY_SERVER}:${APP_PORT}"
@@ -250,6 +250,9 @@ ENDSSH
                                 sleep 5
                             fi
                         done
+                        
+                        echo "❌ Application failed health check"
+                        exit 1
                     """
                 }
             }
