@@ -250,8 +250,8 @@ ENDSSH
                                 sleep 5
                             fi
                         done
-                        
-                        echo "❌ Application failed health check"
+
+                        echo "❌ Application failed health check."
                         exit 1
                     """
                 }
