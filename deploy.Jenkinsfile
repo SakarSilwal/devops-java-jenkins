@@ -238,6 +238,11 @@ ENDSSH
                 script {
                     sh '''
                         echo "=== Health Check: Waiting for app to start ==="
+                        
+                        # [CHANGE: Use shell-compatible comments and install curl]
+                            if ! command -v curl &> /dev/null; then
+                                apk add --no-cache curl
+                            fi
 
                         # Retry 10 times, 5 seconds each
                         for i in $(seq 1 10); do
